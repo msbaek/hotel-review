@@ -240,3 +240,90 @@ public class MyConfiguration {
 | Web Application Conditions |  @ConditionalOnWebApplication, @ConditionalOnNotWebApplication |
 | SpEL expression conditions | @ConditionalOnExpression |
 
+## 3. Actuator
+
+| Feature | Implementation | Notes |
+| - | - | - |
+| Server | Tomcat or Jetty | Whatever is on the classpath |
+| REST | Spring MVC |  |
+| Security | Spring Security | If on the classpath |
+| Logging | Logback, Log4j or JDK | Whatever is on the classpath. Sensible defaults. |
+| Database | HSQLDB or H2 | Per classpath, or define a DataSource to override |
+| Externalized configuration | Properties or YAML | Support for Spring profiles. Bind automatically to @Bean. |
+| Audit | Spring Security and Spring ApplicationEvent | Flexible abstraction with sensible defaults for security events |
+| Validation | JSR-303 | If on the classpath |
+| Management endpoints | Spring MVC | Health, basic metrics, request tracing, shutdown, thread dumps |
+| Error pages | Spring MVC | Sensible defaults based on exception and status code |
+| JSON | Jackson 2 |  |
+| ORM | Spring Data JPA | If on the classpath |
+| Batch | Spring Batch | If enabled and on the classpath |
+| Integration Patterns | Spring Integration | If on the classpath |
+
+### 3.1 A Basic Proejct
+
+아래에 2개의 기본 의존성이 존재
+
+```
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+```
+
+이 의존성은 auto-configure, tomcat container를 프로젝트에 추가한다.
+
+```
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+```
+
+이 의존성은 default management endpoints 등과 같은 보다 옵션화된 기능을 프로젝트에 추가한다.
+
+### 3.2 Externalizing configuration
+
+`compile("org.yaml:snakeyaml:1.13")`을 build.gradle 파일에 추가해서 yaml을 사용하도록 설정
+
+`src/main/resources/application.yml` 파일에 아래와 같이 설정함으로써 외부 설정을 사용할 수 있다.
+
+```
+server:
+  port: 9000
+management:
+  port: 9001
+logging:
+  file: target/log.out
+```
+
+물론 snakeyaml을 클래스 패스에 추가하지 않고 properties를 사용할 수도 있다.
+
+```
+// ServiceProperties.java
+@ConfigurationProperties(name="service")
+public class ServiceProperties {
+    private String message;
+    private int value = 0;
+    ... getters and setters
+}
+
+// SampleController.java
+@Controller
+@EnableAutoConfiguration
+@EnableConfigurationProperties(ServiceProperties.class)
+public class SampleController {
+
+  @Autowired
+  private ServiceProperties properties;
+
+  @RequestMapping("/")
+  @ResponseBody
+  public Map<String, String> helloWorld() {
+    return Collections.singletonMap("message", properties.getMessage());
+  }
+
+  ...
+}
+```
+
+`@EnableConfigurationProperties`에서 `@EnableConfigurationProperties(ServiceProperties.class)` 처럼 빈을 지정할 수 있다.
