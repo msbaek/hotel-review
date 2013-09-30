@@ -193,3 +193,50 @@ commons-logging을 사용한다. 그리고 구현체는 변경 가능하고, jav
 | Logback | right-aligned |
 | Log4j | centered      |
 | JDK | are neat      |
+
+## 2. AutoConfigure
+Spring Boot AutoConfiguration은 선언된 의존성에 기반하여 자동으로 spring 어플리케이션을 구성한다. 예를 들어 HSQLDB가 클래스 패스에 존재하고 수작업으로 아무런 DB Connection Bean을 설정하지 않았다면 AutoConfigure는 자동으로 in-memory database를 설정한다.
+
+### 2.1 Enabling auto-configuration
+
+메인 `@Configration` 클래스에 `@EnableAutoConfiguration` 어노테이션을 지정함으로써 auto-configuration을 활성화한다.
+
+```
+import org.springframework.boot.autoconfigure.*;
+import org.springframework.context.annotation.*;
+
+@Configuration
+@EnableAutoConfiguration
+public class MyConfiguration {
+}
+```
+
+### 2.2 Understanding auto-configured beans
+
+일반적으로 auto-configuration 클래스는 `@ConditionalOnClass`과 `@ConditionalOnMissingBean` 어노테이션을 사용한다. 이를 통해 적절한 클래스가 발견되었을 때만 혹은 `@Configuration`을 선언하지 않았을 때만 auto-configuration이 적용되도록 할 수 있다.
+
+### 2.3 Disabling specific auto-configuration
+
+exclude 속성을 통해 특정 auto-configure 클래스가 적용되지 않도록 할 수 있다.
+
+```
+import org.springframework.boot.autoconfigure.*;
+import org.springframework.boot.autoconfigure.jdbc.*;
+import org.springframework.context.annotation.*;
+
+@Configuration
+@EnableAutoConfiguration(exclude={EmbeddedDatabaseConfiguration.class})
+public class MyConfiguration {
+}
+```
+
+### 2.4 Condition annotations
+
+| Conditions | Anotations |
+| - | - |
+| Class conditions | @ConditionalOnClass, @ConditionalOnMissingClass |
+| Bean conditions | @ConditionalOnBean, @ConditionalOnMissingBean |
+| Resource conditions | @ConditionalOnResource |
+| Web Application Conditions |  @ConditionalOnWebApplication, @ConditionalOnNotWebApplication |
+| SpEL expression conditions | @ConditionalOnExpression |
+
