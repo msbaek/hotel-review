@@ -327,3 +327,19 @@ public class SampleController {
 ```
 
 `@EnableConfigurationProperties`에서 `@EnableConfigurationProperties(ServiceProperties.class)` 처럼 빈을 지정할 수 있다.
+
+### 3.3 Adding security
+
+`compile("org.springframework.boot:spring-boot-starter-security:0.5.0.M4")` 의존성 추가
+
+```
+$ curl localhost:8080/
+{"status": 403, "error": "Forbidden", "message": "Access Denied"}
+$ curl user:password@localhost:8080/
+{"message": "Hello World"}
+```
+
+위와 같이 id/pwd가 필요하게 된다.
+
+기본적으로 auto configuration은 in-memory user DB에 하나의 엔트리를 갖는다. 확장하길 원한다면 `AuthenticationManager`에 대한 `@Bean`정의를 제공해야 한다.
+

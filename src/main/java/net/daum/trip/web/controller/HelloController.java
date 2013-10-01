@@ -17,7 +17,9 @@ public class HelloController {
     private ServiceProperties properties;
 
     @RequestMapping("/")
-    public @ResponseBody Map<String, String> index() {
+    public
+    @ResponseBody
+    Map<String, String> index() {
         return Collections.singletonMap("message", properties.getMessage() + properties.getValue());
     }
 }
