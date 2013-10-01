@@ -343,3 +343,33 @@ $ curl user:password@localhost:8080/
 
 기본적으로 auto configuration은 in-memory user DB에 하나의 엔트리를 갖는다. 확장하길 원한다면 `AuthenticationManager`에 대한 `@Bean`정의를 제공해야 한다.
 
+### 3.4 Adding a database
+
+아래와 같이 2개의 라이브러리를 추가
+
+```
+compile("org.springframework:spring-jdbc:3.2.4.RELEASE")
+compile("org.hsqldb:hsqldb:2.3.0")
+```
+
+그리고 Controller에 아래와 같이 구현해보자.
+
+```
+    private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public HelloController(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+    @RequestMapping("/")
+    public
+    @ResponseBody
+    Map<String, Object> index() {
+        return jdbcTemplate.queryForMap("SELECT * FROM MESSAGES WHERE ID=?", 0);
+    }
+```
+
+그리고 실행하면 Internal Server Error가 발생한다. MESSAGES 테이블이 존재하지 않기 때문이다.
+
+어플리케이션 구동시 데이터를 로딩하기 위해 클래스 패스 루트에 schema.sql 파일을 추가한다.
