@@ -1,6 +1,6 @@
-# Trip
+# Hotel Review
 
-spring-boot를 이용한 REST App 개발
+spring-boot로 spring-data-jpa를 사용하는 REST App 개발 예제
 
 ## 1. 환경 설정
 * build.gradle 파일 작성

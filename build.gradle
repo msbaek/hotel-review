@@ -14,7 +14,7 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
 jar {
-    baseName = 'trip'
+    baseName = 'hotel-review'
     version =  '0.1.0'
 }
 
