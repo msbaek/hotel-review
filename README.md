@@ -24,6 +24,14 @@ spring-boot를 이용한 REST App 개발
 	/shutdown
 ```
 
+## 3. Spring-Data-JPA 기능 추가
+
+spring-data-jpa 기능을 추가하기 위해서는 최소한 아래와 같은 작업이 필요하다.
+
+1. 라이브러리 의존성 추가
+	- `compile("org.springframework.boot:spring-boot-starter-data-jpa:0.5.0.M4")`
+2. 최소한 1개의 `@Entity` 클래스 추가. 이 클래스는 반드시 `@Id`를 가지고 있어야 한다.
+
 # 문서 요약
 ## 1. Spring Boot
 [원문](http://projects.spring.io/spring-boot/docs/spring-boot/README.html)
