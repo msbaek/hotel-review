@@ -6,3 +6,7 @@ logging:
   file: build/log.out
 service:
   message: Hi There !!!
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop

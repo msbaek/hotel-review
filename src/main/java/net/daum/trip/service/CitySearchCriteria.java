@@ -14,62 +14,31 @@
  * limitations under the License.
  */
 
-package net.daum.trip.domain;
+package net.daum.trip.service;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import org.springframework.util.Assert;
+
 import java.io.Serializable;
 
-@Entity
-public class City implements Serializable {
+public class CitySearchCriteria implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue
-	private Long id;
-
-	@Column(nullable = false)
 	private String name;
 
-	@Column(nullable = false)
-	private String state;
-
-	@Column(nullable = false)
-	private String country;
-
-	@Column(nullable = false)
-	private String map;
-
-	protected City() {
+	public CitySearchCriteria() {
 	}
 
-	public City(String name, String country) {
-		super();
+	public CitySearchCriteria(String name) {
+		Assert.notNull(name, "Name must not be null");
 		this.name = name;
-		this.country = country;
 	}
 
 	public String getName() {
 		return this.name;
 	}
 
-	public String getState() {
-		return this.state;
-	}
-
-	public String getCountry() {
-		return this.country;
-	}
-
-	public String getMap() {
-		return this.map;
-	}
-
-	@Override
-	public String toString() {
-		return getName() + "," + getState() + "," + getCountry();
+	public void setName(String name) {
+		this.name = name;
 	}
 }
