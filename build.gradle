@@ -4,7 +4,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:0.5.0.M4")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}")
     }
 }
 
@@ -15,7 +15,7 @@ apply plugin: 'spring-boot'
 
 jar {
     baseName = 'hotel-review'
-    version =  '0.1.0'
+    version =  "${version}"
 }
 
 repositories {
@@ -24,18 +24,14 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-data-jpa:0.5.0.M4")
-    compile("org.springframework.boot:spring-boot-starter-web:0.5.0.M4")
-    //compile("org.springframework.boot:spring-boot-starter-security:0.5.0.M4")
-    testCompile("org.mockito:mockito-core:1.9.5")
-    testCompile("org.springframework.boot:spring-boot:0.5.0.M4")
-    testCompile("org.springframework:spring-test:4.0.0.M3")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa:${spring_boot_version}")
+    compile("org.springframework.boot:spring-boot-starter-web:${spring_boot_version}")
+    //compile("org.springframework.boot:spring-boot-starter-security:${spring_boot_version}")
+    testCompile("org.mockito:mockito-core:${mockito_version}")
+    testCompile("org.springframework.boot:spring-boot:${spring_boot_version}")
+    testCompile("org.springframework:spring-test:${spring_version}")
 
-    compile("org.springframework.boot:spring-boot-starter-actuator:0.5.0.M4")
-    compile("org.yaml:snakeyaml:1.13")
-    compile("org.hsqldb:hsqldb:2.3.0")
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.7'
+    compile("org.springframework.boot:spring-boot-starter-actuator:${spring_boot_version}")
+    compile("org.yaml:snakeyaml:${snakeyaml_version}")
+    compile("org.hsqldb:hsqldb:${hsqldb_version}")
 }
